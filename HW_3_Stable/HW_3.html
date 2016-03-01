@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <link rel="shortcut icon" href="">
+        <meta http-equiv="Content-Type" content="text/html;charset=utf-8" >
+        <title>Interactive WebGL - Homework 3</title>
+
+
+        <script id="vertex-shader" type="x-shader/x-vertex">
+            
+            
+            attribute vec4 vPosition;
+            varying vec4 vColor;
+            uniform mat4 transMat;
+            
+            void main(){
+                gl_Position = transMat*vPosition;
+                vColor = vPosition;
+            }
+        </script>
+
+        <script id="fragment-shader" type="x-shader/x-fragment">
+            precision mediump float;
+            uniform int colorMode;
+            varying vec4 vColor;
+            void main(){
+                vec4 color = normalize(vec4(vColor.xyz,1));
+                if(colorMode == 0)
+                    gl_FragColor = color+0.6;
+                else if(colorMode == 1)
+                    gl_FragColor = color+0.5;
+                else if(colorMode == 2) {
+                    float col = (color.x + color.y + color.z) / 3.0;
+                    gl_FragColor = vec4(col,col,col,0.5) + 0.40;
+                }else if(colorMode == 3)
+                    gl_FragColor = vec4(0.35,0.35,0.35,1);
+                else if(colorMode == 4) {
+                    float col = (color.x + color.y + color.z) / 3.0;
+                    gl_FragColor = vec4(col,col,col,0.5) + 0.90;
+                }else if(colorMode == 5)
+                    gl_FragColor = vec4(0.85,0.85,0.85,1);
+            }
+        </script>
+
+        <script type="text/javascript" src="../Common/webgl-utils.js"></script>
+        <script type="text/javascript" src="../Common/initShaders.js"></script>
+        <script type="text/javascript" src="../Common/MV.js"></script>
+
+        <script src="../js/libs/jquery/jquery.js" type="text/javascript"></script>
+        <link href="../js/libs/jquery-ui/jquery-ui.min.css" rel="stylesheet" type="text/css"/>
+        <script src="../js/libs/jquery-ui/jquery-ui.min.js" type="text/javascript"></script>
+        <link href="../js/libs/jquery-ui/jquery-ui.structure.min.css" rel="stylesheet" type="text/css"/>
+        <link href="../js/libs/jquery-ui/jquery-ui.theme.min.css" rel="stylesheet" type="text/css"/>
+        
+        <script src="../Slider/slider.js" type="text/javascript"></script>
+        <link href="../Slider/slider.css" rel="stylesheet" type="text/css">
+        
+        <link  href="HW_3.css" rel="stylesheet" type="text/css"/>
+        <script src="HW_3_UI.js" type="text/javascript"></script>
+        <script src="HW_3_PR.js" type="text/javascript"></script>
+        <script src="HW_3_GL.js" type="text/javascript"></script>
+    </head>   
+
+    <body>
+        <div style="display:none;margin:15px auto 0px auto;font-size: 1.3em; text-align: center;">
+            Coursera Interactive WebGL
+            <br>Homework 3 - CAD 
+        </div>
+        <div id="div_wrapper">
+            <div class="control-panel" id="left-panel">
+                <div id="drawMode">
+                    <input type="radio" id="draw_solid" name="drawMode">
+                    <label for="draw_solid">Solid</label>
+                    <input type="radio" id="draw_both" name="drawMode" checked="checked">
+                    <label for="draw_both">Both</label>
+                    <input type="radio" id="draw_mesh" name="drawMode">
+                    <label for="draw_mesh">Mesh</label>
+                </div>
+            </div>
+            <div id="div_canvas"><canvas tabindex='1' id="gl-canvas" ></canvas></div>
+            <div class="control-panel" id="right-panel">
+                <div>Frames Per Second: <b><span id="FPS"></span></b></div>
+                <button class="adder">Add New Figure</button>
+            </div>
+        </div>
+    </body>
+</html>

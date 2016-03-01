@@ -1,0 +1,55 @@
+.wrapper{
+    width: 270px;
+    margin:auto;
+    /* border:solid 1px black; */
+}
+.ds_wrapper{
+    padding: 0px 10px;
+    vertical-align: bottom;
+    border-radius:15px;
+    margin:2px;
+}
+.ds_label{
+    float:left;
+    font-weight: bold;
+    margin-bottom: 2px;
+}
+.ds_meter{
+    float:right;
+    margin-right:30px;
+}
+.ds_text{
+    text-align: right;
+    padding:0 2px 0 0;
+    margin: 0 2px 0 0;
+    border:none;
+    font-style:italic;
+}
+.ds_unit{
+    
+}
+
+
+
+.ds_slider{
+    float:left;
+    display: inline-block;
+    font-size: 10px;
+    /* margin-bottom: 14px; */
+}
+.ds_toggle{
+    float:right;
+    display: inline-block;
+    position:relative;
+    bottom: 5px;
+    margin: 0;
+    padding: 0;
+    width: 20px !important;
+    height: 20px !important;
+    border: none;
+    background: none;
+}
+
+.ds_show {
+    background-color: #FFF4E5;
+}

@@ -1,0 +1,83 @@
+#div_wrapper {
+    padding-top: 20px;
+    text-align: center;
+    vertical-align: top;
+    margin: auto;
+    width: auto;
+    
+}
+
+#div_wrapper > div {
+    display:inline-block;
+    vertical-align: top;
+}
+
+#div_canvas canvas{
+    border: solid 1px lightgray;
+    border-radius: 20px;
+    margin: 0 20px;
+}
+.control {
+    /* float:right; */
+    /* display:inline-block; */
+    /* width: 270px; */
+    text-align: left;
+    border:solid 1px lightgray;
+    border-radius: 20px;
+    padding:20px 0;
+    margin-top:0px;
+    /* vertical-align: top; */
+}
+div.slider{
+    width: 72%;
+    margin: 5px 10px 8px 9%;
+    font-size: 0.7em;
+    display: inline-block;
+}
+
+.control label{
+    margin-left: 10px;
+    font-weight: bold;
+    /* width:120px; */
+    display:inline-block;
+}
+.control > span {
+    font-size:1.1em;
+    /* width:170px; */
+    display:inline-block;
+    text-align:right;
+    float: right;
+    margin-right: 50px;
+}
+
+
+#div_buttons {
+    clear: both;
+    margin: auto;
+    /* display:inline-block; */
+    width: 350px;
+    padding-top:10px;
+    float: none;
+    font-size: 1em;
+}
+
+#div_buttons button{
+    width: 348px;
+    height:56px;
+}
+
+.control input[type="checkbox"] {
+    position: relative;
+    bottom: 6px;
+}
+
+.title {
+    text-align:center;
+    margin-bottom:10px;
+    font-size:1.2em;
+    font-weight: bold;
+    width: 270px;
+}
+#div_control_left, #div_control_right {
+    width: 270px;
+}

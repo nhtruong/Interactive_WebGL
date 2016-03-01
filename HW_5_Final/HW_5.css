@@ -1,0 +1,128 @@
+body{
+    margin:0;
+    padding:0;
+    overflow:hidden;
+}
+#div_wrapper {
+    text-align: center;
+    vertical-align: top;
+    margin: auto;
+    width: auto;
+    
+}
+#div_wrapper > div {
+    display:inline-block;
+    vertical-align: top;
+}
+#div_canvas canvas{
+    width: 100%;
+    height: 100%;
+    outline:none;
+}
+
+div.control-panel{
+    width: 170px;
+    position:absolute;
+    top:10px;
+}
+
+#div-selector {
+    left: 10px;
+    width: 180px;}
+
+#div-selector button {
+    font-size:0.8em;
+}
+
+#div-leftParams {
+    left: 198px;
+    top: 4px;
+}
+
+#div-rightParams {
+    left: 356px;
+    top: 13px;
+}
+
+.matPanel select{
+    width: 80%;
+    margin: 15px 13px 15px 0;
+    height:25px;
+}
+
+#div-texture {
+    right: 20px;
+    top:15px;
+}
+
+
+
+#div-masking {
+    right: 210px;
+    top:15px;
+}
+
+
+button.adder{
+    width: 175px;
+    height:30px;
+}
+#drawMode {margin:15px 0 20px 0;}
+#drawMode label{
+    height:25px;
+    width:58px;
+    font-size:0.8em;
+}
+
+div.figure, div.lightSource{
+    margin: 5px 0;
+}
+button.selector{
+    width: 104px;
+    margin: 0px 4px;
+    height:30px;
+}
+.play_pause {
+    height:30px;
+}
+button.deleter{
+    width:30px;
+    height:30px;
+}
+button.selected, button.selectedLight{
+    background: #CCFFB4;
+    color: black;
+}
+
+
+#texture, #masking{
+    margin: 0 0 10px 0;
+}
+
+#texture select, #masking select{
+    width: 97%;
+    height: 35px;
+    border-radius: 18px;
+    padding-left: 10px;
+    outline: none;
+    margin-bottom: 0;
+}
+#image, #mask {
+    width: 300%;
+    height: 300%;
+    left: -100%;
+    top: -100%;
+    background-size: 180px 68px;
+    background-position: 0 0;
+    transform: rotate(-180deg);
+    position: absolute;
+}
+
+#image-wrapper, #mask-wrapper {
+    overflow:hidden;
+    margin: 5px 0 15px 0;
+    position: relative;
+    width: 175px;
+    border: solid 1px rgb(224, 224, 224);
+    margin: 42px 0;
+}

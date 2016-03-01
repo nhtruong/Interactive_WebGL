@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <link rel="shortcut icon" href="">
+        <meta http-equiv="Content-Type" content="text/html;charset=utf-8" >
+        <title>Interactive WebGL - Homework 1</title>
+
+
+        <script id="vertex-shader" type="x-shader/x-vertex">
+            attribute vec4 vPosition;
+            uniform float uTheta;
+            uniform float uRate;
+            uniform float uWidth;
+            uniform float uDisplacement[2];
+            uniform float uTwistCenter[2];
+            varying vec4 vSeed;
+
+
+            vec4 twist(vec4 point) {
+                float x = point.x - uTwistCenter[0];
+                float y = point.y - uTwistCenter[1];
+                float d = sqrt(x*x + y*y);
+                float angle = radians(pow(d,uRate)*uTheta);
+                float c = cos(angle);
+                float s = sin(angle);
+                float rx = x*c - y*s + uTwistCenter[0] + uDisplacement[0];
+                float ry = x*s + y*c + uTwistCenter[1] + uDisplacement[1];
+                return vec4(rx,ry,0,1);
+            }    
+            void main(){
+                gl_Position = vPosition;
+                gl_Position = twist(gl_Position);
+                vSeed = vPosition;
+            }
+        </script>
+
+        <script id="fragment-shader" type="x-shader/x-fragment">
+            #define M_PI 3.1415926535897932384626433832795
+            precision mediump float;
+            varying vec4 vSeed;
+            void main(){ 
+                
+                float x = 0.5 - vSeed.x * M_PI;
+                float y = 0.5 - vSeed.y * M_PI;
+                float z = (x + y) / 2.0;
+                
+                x = sin(x);
+                y = sin(y);
+                z = sin(z);
+                
+                gl_FragColor = vec4( abs(x),abs(y),abs(z),1 );
+            }
+        </script>
+
+        <script type="text/javascript" src="../Common/webgl-utils.js"></script>
+        <script type="text/javascript" src="../Common/initShaders.js"></script>
+        <script type="text/javascript" src="../Common/MV.js"></script>
+
+        <script src="HW_1.js" type="text/javascript"></script>
+        <link href="HW_1.css" rel="stylesheet" type="text/css"/>
+
+        <script src="../js/libs/jquery/jquery.js" type="text/javascript"></script>
+        <link href="../js/libs/jquery-ui/jquery-ui.min.css" rel="stylesheet" type="text/css"/>
+        <script src="../js/libs/jquery-ui/jquery-ui.min.js" type="text/javascript"></script>
+        <link href="../js/libs/jquery-ui/jquery-ui.structure.min.css" rel="stylesheet" type="text/css"/>
+        <link href="../js/libs/jquery-ui/jquery-ui.theme.min.css" rel="stylesheet" type="text/css"/>
+    </head>   
+
+    <body>
+        <div style="margin:25px auto 10px auto;font-size: 1.3em; text-align: center">
+            Coursera Interactive WebGL<br>Homework 1 - Twisted Triangle</div>
+        <div id="div_wrapper">
+            <div id="div_control_left">
+                <div class="title">Satellite Control</div>
+                <div id="div_satellite" class="control">
+                    <label>Tessellation:</label><span unit=" Iterations"></span>
+                    <div id="sat_tessellation" class="slider"></div>
+                    <label>Polygon:</label><span unit=" Edges"></span>
+                    <div id="sat_polygon" class="slider"></div>
+                    <label>Convexity:</label><span unit="%"></span>
+                    <div id="sat_convexity" class="slider"></div>
+                    <label>Width:</label><span unit="%"></span>
+                    <div id="sat_width" class="slider"></div>
+                    <label>Rotation:</label><span unit=" Degrees"></span> 
+                    <div id="sat_rotation" class="slider"></div>
+                    <label>Orbit Height:</label><span unit="%"></span> 
+                    <div id="sat_height" class="slider"></div>
+                    <label>Orbit Angle:</label><span unit=" Degrees"></span> 
+                    <div id="sat_angle" class="slider"></div>
+                    <label>Count:</label><span unit=" Satellites"></span> 
+                    <div id="sat_count" class="slider"></div>
+                </div>
+                <div>
+                    <br>Click on the check box next to each slider 
+                    <br>to toggle animation for each parameter.
+                    <br>
+                    <br>If they do not work,
+                    <br>maybe try that button over there?
+                </div>
+            </div>
+            <div id="div_canvas">
+                <canvas id="gl-canvas" width="600" height="600">
+                    Oops ... your browser doesn't support the HTML5 canvas element
+                </canvas>
+                
+        
+            <div id="div_buttons"><button id="btn_animate">DO NOT PRESS THIS BUTTON</button></div>
+            </div>
+            <div id="div_control_right">
+                <div class="title">Main Control</div>
+                <div id="div_control"  class="control">
+                    <label>Tessellation:</label><span unit=" Iterations"></span>
+                    <div id="sld_tessellation" class="slider"></div>
+                    <label>Polygon:</label><span unit=" Edges"></span>
+                    <div id="sld_polygon" class="slider"></div>
+                    <label>Convexity:</label><span unit="%"></span>
+                    <div id="sld_convexity" class="slider"></div>
+                    <label>Width:</label><span unit="%"></span>
+                    <div id="sld_width" class="slider"></div>
+                    <label>Rotation:</label><span unit=" Degrees"></span> 
+                    <div id="sld_rotation" class="slider"></div>
+
+                    <label>Twist Angle:</label><span unit=" Degrees"></span> 
+                    <div id="sld_angle" class="slider"></div>
+                    <label>Twist Rate:</label><span unit="%"></span>
+                    <div id="sld_rate" class="slider"></div>
+                    <label>Twist Center X:</label><span unit="%"></span>
+                    <div id="sld_twistX" class="slider"></div>
+                    <label>Twist Center Y:</label><span unit="%"></span>
+                    <div id="sld_twistY" class="slider"></div>
+
+                    <label>Displacement X:</label><span unit="%"></span>
+                    <div id="sld_displacementX" class="slider"></div>
+                    <label>Displacement Y:</label><span unit="%"></span>
+                    <div id="sld_displacementY" class="slider"></div>
+                </div>
+            </div>
+        </div>
+<script>
+$(function () {
+    $('#sat_tessellation').slider({ min: 0, max: 4, value: 3});
+    $('#sat_polygon').slider({min: 3, max: 6, value: 3});
+    $('#sat_count').slider({min: 0, max: 6, value: 6});
+    $('#sat_convexity').slider({range: "min", min: 1, max: 100, value: 50, step: 0.2,
+        create: function (event, ui) {sliders.push(new DancingSlider($(this), [60, 100], 100, 1));} });
+    $('#sat_width').slider({range: "min", min: 0, max: 100, value: 30, step: 0.1,
+        create: function (event, ui) {sliders.push(new DancingSlider($(this), [0, 75], 2, 1.5));}});
+    $('#sat_rotation').slider({range: "min", min: -180, max: 180, value: 0, step: 0.5,
+        create: function (event, ui) {sliders.push(new DancingSlider($(this), [-180, 180], 100, 3, true));}});
+    $('#sat_height').slider({range: "min", min: 0, max: 100, value: 20,  step: 0.1,
+        create: function (event, ui) {sliders.push(new DancingSlider($(this), [25, 75], 1, 1.5));}});
+    $('#sat_angle').slider({range: "min", min: -180, max: 180, value: 0,  step: 0.25,
+        create: function (event, ui) {sliders.push(new DancingSlider($(this), [-180, 180], 0.5, 1.3, true));}});
+    
+    
+    
+    $('#sld_tessellation').slider({ min: 0, max: 5, value: 3});
+    $('#sld_polygon').slider({min: 3, max: 8, value: 3});
+    $('#sld_convexity').slider({range: "min", min: 1, max: 100, value: 100, step: 0.2,
+        create: function (event, ui) {sliders.push(new DancingSlider($(this), [20, 100], 100, 1));} });
+    $('#sld_width').slider({range: "min", min: 0, max: 100, value: 75, step: 0.1,
+        create: function (event, ui) {sliders.push(new DancingSlider($(this), [0, 50], 2, 1.25));}});
+    $('#sld_rotation').slider({range: "min", min: -180, max: 180, value: 0, step: 0.35,
+        create: function (event, ui) {sliders.push(new DancingSlider($(this), [-180, 180], 100, 3, true));}});
+    $('#sld_angle').slider({range: "min", min: -180, max: 180, value: 70,  step: 0.1,
+        create: function (event, ui) {sliders.push(new DancingSlider($(this), [-80, 80], 1, 1.1));}});
+    $('#sld_rate').slider({range: "min", min: 1, max: 200, value: 100,   step: 0.1,
+        create: function (event, ui) {sliders.push(new DancingSlider($(this), [60, 200], 1, 1.25));}});
+    $('#sld_twistX').slider({range: "min", min: -100, max: 100, value: 0, step: 0.2,
+        create: function (event, ui) {sliders.push(new DancingSlider($(this), [-40, 40], 0.5, 0.85));}});
+    $('#sld_twistY').slider({range: "min", min: -100, max: 100, value: 0, step: 0.2,
+        create: function (event, ui) {sliders.push(new DancingSlider($(this), [-40, 40], 0.5, 0.85));}});
+    $('#sld_displacementX').slider({range: "min", min: -100, max: 100, value: 0, step: 0.05,
+        create: function (event, ui) {sliders.push(new DancingSlider($(this), [-50, 50], 0.4, 0.22));}});
+    $('#sld_displacementY').slider({range: "min", min: -100, max: 100, value: 0, step: 0.05,
+        create: function (event, ui) {sliders.push(new DancingSlider($(this), [-50, 50], 0.4, 0.22));}});
+    
+    $('.control .slider').on('slide',function (event, ui) {updateLabels($(this), ui.value);drawFrame();});
+    //$('#sld_twistX ,#sld_twistY, #sld_displacementX, #sld_displacementY').next().prop('checked',false);
+    $('#btn_animate').button().click(function(){
+        if(typeof animation === 'undefined')
+            animation = setInterval(function () {Dance();drawFrame();}, 30);
+        else{
+            clearInterval(animation);
+            animation = undefined;
+        }
+        var dialog = dialogs.shift();
+        $(this).html(dialog);
+        
+        if(dialog === "I hate to say it but...") {
+            $('.control').slideUp(500);
+        } else if (dialog === "Aren't you a good little hooman?") {
+            $('.control').slideDown(500);
+        } else if (dialog === "TOGGLE ANIMATION") {
+            dialogs.push(dialog);
+        };
+    return false;});
+
+
+    updateLabels($('.control div'));
+    drawFrame();
+});
+    
+</script>
+<script>
+         
+var dialogs = ["What? Why did you do that? It could be dangerous. Now don't press it no more!",
+    "You're a little rebel aintcha?<br>Press it again if you dare!",
+    "This is no joke! Stop please!",
+    "I'm begging you!", "AAAAAAAAAAAHH!<br> MAKE IT STOP!","I'm callin' da police!", "...",
+    "Alright! <br> I'm tired of this stupid joke, too.",
+    "Hey! I'm breaking the 4th wall!",
+    "Does me mentioning the 4th wall <br> make it a 4th-wall-ception?",
+    "But seriously, <br> DO NOT PRESS THIS BUTTON!",
+    "I hate to say it but..."," I TOLD YOU SO!",
+    "I will bring it back if you ask nicely <br> 'cause I'm a kind little script.",
+    "\"Please bring the control panel back!\"",
+    "Aren't you a good little hooman?",
+    "(THE END)",
+    "(OR ... to be continue maybe?)",
+    "(Let's find out!)",
+    "TOGGLE ANIMATION"];
+function updateLabels(inputs, value) {
+    if (typeof value !== 'undefined') {
+        value = value.toFixed(2);
+        var span = inputs.prev('span');
+        span.html(''+value+span.attr('unit'));
+        if (inputs.hasClass('slider'))
+            inputs.slider('value', value);
+        return;
+    }
+    inputs.each(function () {
+        var ele = $(this);
+        if (ele.hasClass('slider')) {
+            value = ele.slider('value');
+            value = value.toFixed(2);
+            var span = ele.prev('span');
+            span.html(''+value+span.attr('unit'));
+        }
+    });
+}
+
+var sliders = [];
+function Dance() {
+    for (var i = 0; i < sliders.length; i++) {
+        sliders[i].dance();
+    }
+    if ($('#sld_width').slider('value') === 0) {
+        $('#sld_polygon').slider('value', Math.ceil(Math.random() * 6) + 2);
+    }
+    if ($('#sat_width').slider('value') === 0) {
+        $('#sat_polygon').slider('value', Math.ceil(Math.random() * 4) + 2);
+        $('#sat_count').slider('value', Math.ceil(Math.random() * 3) + 2);
+    }
+    updateLabels($('.control div'));
+}
+
+function DancingSlider(slider, range, chance, steps, cyclic) {
+    this.slider = slider;
+    this.slider.after('<input type="checkbox" checked/>');
+    this.chance = typeof chance === 'undefined' ? 1 : chance / 100;
+    this.range = typeof range === 'undefined' ? [slider.slider('option', 'min'), slider.slider('option', 'max')] : range;
+    this.steps = typeof steps === 'undefined' ? 1 : steps;
+    this.cyclic = typeof cyclic === 'undefined' ? false : cyclic;
+    this.remaining = 0;
+    this.increment = 0;
+    this.frame = 0;
+    this.value = slider.slider('value');
+    this.speed = slider.slider('option', 'step');
+
+    this.dance = function () {
+        if(!this.slider.next('input').prop('checked'))
+            return;
+        if (this.remaining === 0 && this.chance > Math.random()) {
+            this.remaining = Math.ceil((this.range[1] - this.range[0]) * this.steps / this.speed);
+            this.increment = 0;
+        } else if (this.remaining !== 0) {
+            this.value = this.slider.slider('value') + this.increment * this.speed;
+            this.direction();
+            this.remaining--;
+            slider.slider('value', this.value);
+        }
+    };
+
+    this.direction = function () {
+        if (this.value <= this.range[0] && !this.cyclic)
+            this.increment = 1;
+        else if (this.value >= this.range[1] && !this.cyclic)
+            this.increment = -1;
+        else if (this.increment === 0)
+            this.increment = Math.random() > 0.5 ? 1 : -1;
+
+        if (cyclic)
+            if (this.value <= this.range[0] && this.increment < 0)
+                this.value = this.range[1];
+            else if (this.value >= this.range[1] && this.increment > 0)
+                this.value = this.range[0];
+    };
+
+}
+</script>
+    </body>
+</html>
