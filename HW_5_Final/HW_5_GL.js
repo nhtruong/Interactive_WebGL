@@ -198,7 +198,7 @@ function applyMasking(filename) {
     var wrapper = div.parent();
     var img = $("<img>");
     var height = 180;
-    var filepath ="../Images/"+filename;
+    var filepath ="Images/"+filename;
     
     var maskingTexture = gl.createTexture();
     var masking = new Image();
@@ -230,7 +230,7 @@ function applyTexture(filename) {
     var wrapper = div.parent();
     var img = $("<img>");
     var height = 180;
-    var filepath ="../Images/"+filename;
+    var filepath ="Images/"+filename;
     
     
     
